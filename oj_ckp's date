@@ -1,0 +1,116 @@
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+
+typedef struct person{
+    string Name;
+    string starttime;
+    string endtime;
+//    int last_time;
+    int is_on;
+}person,*pPerson;
+bool compare(  person a,person b  ){
+    return a.endtime < b.endtime;
+}
+person girls[1010];
+//int lastTime(person a){
+//    int last = 0;
+//    for(int i = 0 ; i <= 4 ; i ++ ){//因为有一个冒号所以要多循环一次
+//        last = last*10 + (a.endtime[i]-a.starttime[i]);
+//    }
+//    return last;
+//}
+
+//void sortByLastime(int n){
+//    for(int i =0 ; i < n-1; i ++ ){
+//        for(int j = 0 ; j < n-1-i ; j ++ ){
+//                if(girls[j].last_time > girls[j+1].last_time){
+//                    swap(girls[j],girls[j+1]);
+//                }
+//        }
+//    }
+//
+//}
+void sortByEndime(int n){
+//    for(int i =0 ; i < n-1; i ++ ){
+//        for(int j = 0 ; j < n-1-i ; j ++ ){
+//                if(girls[j].endtime > girls[j+1].endtime){
+//                    swap(girls[j],girls[j+1]);
+//                }
+//        }
+//    }
+    sort(girls,girls+n,compare);
+}
+
+int main()
+{
+    int n;//总人数
+//    int flag=0;//标记目前最早MM
+//    int flag_late =0;//标记最晚MM
+    int num=0;//约到的人数
+    //输入
+    cin>>n;
+    int dates[n];
+    memset(dates,-1,sizeof dates);
+    for(int i = 0 ; i < n ; i ++){
+        cin>>girls[i].Name;
+        cin>>girls[i].starttime;
+        cin>>girls[i].endtime;
+        girls[i].is_on=0;
+//        girls[i].last_time=lastTime(girls[i]);
+    }
+//    for(int i = 0 ; i < n ; i ++){
+//        cout<<"姓名："<<girls[i].Name;
+//        cout<<"开始"<<girls[i].starttime;
+//        cout<<"结束"<<girls[i].endtime;
+//        cout<<"是否被约"<<girls[i].is_on<<"\n";
+//        cout<<"持续时间"<<girls[i].last_time<<"\n";
+//    }
+    //按照结束时间排序，贪心算法
+    sortByEndime(n);
+//     for( int i = 0 ; i < n ; i ++ ){
+//        cout<<girls[i].Name;
+//    }
+
+//    string earlytime = girls[0].starttime;
+    string currentime = girls[0].endtime;
+//    string latetime = girls[n-1].endtime;
+    girls[0].is_on = 1;
+//    for(int i = 0 ; i < n ; i ++ ){
+//        if(girls[i].starttime < earlytime){
+//            earlytime=girls[i].starttime;
+//            flag = i;
+//        }
+//        if(girls[i].endtime > latetime){
+//            latetime = girls[i].endtime;
+//            flag_late = i;
+//        }
+//    }
+
+
+    //核心代码
+    dates[num] = 0;
+
+        for(int i = 0 ; i < n ; i ++ ){
+            if(girls[i].is_on == 0 && girls[i].starttime >= currentime){
+                girls[i].is_on = 1;
+                currentime = girls[i].endtime;
+                num++;
+                dates[num] = i;
+//                cout<<"\n"<<num<<" "<<currentime<<"\n";
+
+            }
+        }
+
+    //输出结果
+    cout<<num+1<<"\n";
+    for( int i = 0 ; i < num+1 ; i ++ ){
+        cout<<girls[dates[i]].Name<<" ";
+    }
+
+    return 0;
+}
