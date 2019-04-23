@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<string.h>
+#include <iostream>
+
+using namespace std;
+
+char a[1005],b[1005];
+
+int num[1005][1005];
+
+void LCS(int lena,int lenb){
+    for(int i=1;i<=lena;i++){
+        for(int j=1;j<=lenb;j++){
+            if(a[i]==b[j]){
+                num[i][j]=num[i-1][j-1]+1;
+            }
+            else{
+                num[i][j]=num[i][j-1] >= num[i-1][j] ? num[i][j-1] : num[i-1][j];
+            }
+        }
+    }
+}
+int main(){
+    int lena;
+    int lenb;
+    cin>>lena>>lenb;
+    for(int i = 1 ; i <=lena ; i ++ ){
+        cin>>a[i];
+    }
+    for(int i = 1 ; i <=lenb ; i ++ ){
+        cin>>b[i];
+    }
+    memset(num,0,sizeof(num));//Êý×é¸³³õÖµ
+    LCS(lena,lenb);
+    /*for(int i=0;i<=lena;i++){
+        for(int j=0;j<=lenb;j++){
+           cout<<num[i][j]<<" ";
+        }
+        cout<<"\n";
+    }*/
+    printf("%d",num[lena][lenb]);
+    return 0;
+}
