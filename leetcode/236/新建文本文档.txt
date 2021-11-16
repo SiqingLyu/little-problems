@@ -1,0 +1,19 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+struct TreeNode* lowestCommonAncestor(struct TreeNode* root, struct TreeNode* p, struct TreeNode* q) {
+    if(!root || p == root || q == root)
+        return root;
+    else{
+        struct TreeNode* Left= lowestCommonAncestor(root->left,p,q);
+        struct TreeNode* Right=lowestCommonAncestor(root->right,p,q);
+        if(Left&&Right) return root;
+        if(Left) return Left;
+        else return Right;
+    }
+}
